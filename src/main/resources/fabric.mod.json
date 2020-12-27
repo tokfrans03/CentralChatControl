@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "CentralChatControl",
+  "id": "centralchatcontrol",
   "version": "${version}",
   "name": "CentralChatControl",
   "description": "uses MQTT to send text to multiple Minecraft instances",
@@ -10,11 +10,7 @@
   "contact": {},
   "license": "MIT",
   "icon": "assets/CentralChatControl/icon.png",
-  "environment": "client",
   "entrypoints": {
-    "client": [
-      "me.tok1.centralchatcontrol.client.CentralChatControlClient"
-    ],
     "main": [
       "me.tok1.centralchatcontrol.CentralChatControl"
     ]
@@ -24,7 +20,6 @@
   ],
   "depends": {
     "fabricloader": ">=0.10.8",
-    "fabric": "*",
     "minecraft": "1.16.4"
   }
 }
