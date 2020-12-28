@@ -1,6 +1,11 @@
+
 plugins {
     id 'fabric-loom' version '0.6-SNAPSHOT'
     id 'maven-publish'
+    //id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id "org.xbib.gradle.plugin.shadow" version "1.1.0"
+
+
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -10,22 +15,36 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.eclipse.org/content/repositories/paho-releases/' }
-}
+
+
 
 dependencies {
+    shadow localGroovy()
+    shadow gradleApi()
     //to change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    compile 'org.eclipse.paho:mqtt-client:0.4.0'
+
+    //implementation group: 'com.hivemq', name: 'hivemq-mqtt-client-shaded', version: '1.2.1'
+    implementation group: 'com.hivemq', name: 'hivemq-mqtt-client', version: '1.2.1'
+
+
 
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
 }
+
+/*
+shadowJar {
+    relocate 'com.hivemq.client.mqtt.mqtt3', 'shadow.mqtt'
+}*/
+
+/*
+shadowJar {
+    relocate 'org.eclipse.paho.client.mqttv3', 'shadow.mqtt'
+}*/
 
 processResources {
     inputs.property "version", project.version
@@ -46,6 +65,7 @@ processResources {
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
+
 
 // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
 // if it is present.

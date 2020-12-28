@@ -5,7 +5,7 @@ import net.minecraft.text.Text;
 
 public class SetUrl extends Base {
     public SetUrl() {
-        super("SetPort", new String[]{"SetUrl"}, "SetPorts for either diamond or redstone ore");
+        super("SetUrl", new String[]{"SetUrl"}, "SetPorts for either diamond or redstone ore");
     }
 
     @Override
