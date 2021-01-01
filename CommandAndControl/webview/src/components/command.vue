@@ -1,7 +1,7 @@
 <template>
   <v-card color="grey darken-3" class="mx-4 pa-2">
     <v-row>
-      <v-col cols="4">
+      <v-col cols="auto">
         <h2>
           {{ cmd }}
         </h2>
