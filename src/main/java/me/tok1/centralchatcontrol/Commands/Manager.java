@@ -12,6 +12,9 @@ public class Manager {
         c.add(new Help());
         c.add(new SetUrl());
         c.add(new SetPort());
+        c.add(new resetjobs());
+        c.add(new check());
+        c.add(new tickinterval());
         c.add(new Test());
     }
 

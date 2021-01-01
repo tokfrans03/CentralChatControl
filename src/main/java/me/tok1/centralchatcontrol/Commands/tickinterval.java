@@ -2,21 +2,19 @@ package me.tok1.centralchatcontrol.Commands;
 
 import me.tok1.centralchatcontrol.Etc.Config;
 import me.tok1.centralchatcontrol.Etc.Logger;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
-public class SetPort extends Base {
-    public SetPort() {
-        super("SetPort", new String[]{"SetPort", "o"}, "Set Port for server");
+public class tickinterval extends Base{
+    public tickinterval() {
+        super("tickinterval", new String[]{"tickinterval", "i"}, "How many ticks per interval");
     }
 
     @Override
     public void run(String[] args) {
         if (args.length < 2) {
             assert MinecraftClient.getInstance().player != null;
-            Logger.print("Please provide integer");
+            Logger.print("[CCC] Please a integer (20 for once per second)");
             return;
         }
         String newarg = args[1];
@@ -28,7 +26,8 @@ public class SetPort extends Base {
             Logger.print("Please provide a VALID number as argument.");
             return;
         }
-        Config.port = newargI;
+        Config.tickinterval = newargI;
+        Logger.print("Set new Tick interval to " + newarg);
 
 
         assert MinecraftClient.getInstance().player != null;

@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <!-- Ta inte bort det här skriptet -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style>
+        .backgroundGreen {
+            background-color: green;
+        }
+
+        .backgroundRed {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Lägg din html innanför div-taggen med id="app" -->
+    <div id="app">
+        <input type="checkbox" id="bool" name="bool" v-model="green">
+        <label for="bool"> Green</label><br>
+        <div :class="(green)? 'backgroundGreen': 'backgroundRed'" style="width: 200px; height: 200px;"></div>
+    </div>
+
+    <!-- Lägg din javascript innanför script-taggen -->
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                green: false
+            }
+        })
+    </script>
+
+</body>
+
+</html>
