@@ -1,6 +1,8 @@
 # CentralChatControl
 uses HTTP to send text to multiple Minecraft instances
 
+<img src="Pics/Exampleusage.png"/>
+
 # Use cases
 When you have for example 4 minecraft instaces with baritone it gets annoying to copy paste the same commands over to all of them. 
 With this you only need to send it to one place. 
