@@ -64,11 +64,9 @@
         </v-col>
         <v-col cols="4" v-if="users.length">
           <v-card class="ma-4 pa-4 ml-n4">
-            
-            <p>Players:</p>
-
-            <v-row >
-              <v-col v-for="(user, index) in users" :key="index" cols="12" >
+            <v-card-title class="ml-n4" primary-title> Players: </v-card-title>
+            <v-row>
+              <v-col v-for="(user, index) in users" :key="index" cols="12">
                 <player :name="user" :url="url" @del="deluser(index)" />
                 <!-- <v-card color="success" >text</v-card> -->
               </v-col>
@@ -99,7 +97,14 @@ export default Vue.extend({
     loading: false,
     commandRules: [(v: string) => !!v || "Command is required"],
     jobs: ["aaa"],
-    users: ["Tokfrans03", "Tokfrans03", "Tokfrans03", "Tokfrans03", "Tokfrans03", "Tokfrans03", ],
+    users: [
+      "Tokfrans03",
+      "Tokfrans03",
+      "Tokfrans03",
+      "Tokfrans03",
+      "Tokfrans03",
+      "Tokfrans03",
+    ],
     auto: 0,
     url: "",
   }),

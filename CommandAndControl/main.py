@@ -1,7 +1,8 @@
 from typing import Optional
-from pydantic import BaseModel
 from fastapi import FastAPI
+from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 
@@ -24,6 +25,7 @@ app.add_middleware(
 connected_clients = []
 jobs = [] # jobid = len(jobs)
 jobid = 0
+
 
 class login(BaseModel):
     name: str
@@ -85,10 +87,26 @@ async def delete_job(index: jobindex):
         del jobs[index.i]
         return f'Job "{t}" removed'
     return "Job not in range"
-
+    
 @app.get("/", response_class=HTMLResponse)
 def read_root():
-    return open("index.html").read()
+    return open(f"{webroot}index.html").read()
+
+webroot = "webview/dist/"
+app.mount("/", StaticFiles(directory=webroot), name="static")
+
+
+# @app.get("/index.html", response_class=HTMLResponse)
+# def read_html():
+#     return open(f"{webroot}index.html").read()
+
+# @app.get("/js/{file}", response_class=HTMLResponse)
+# def read_js(file: str):
+#     return open(f"{webroot}js/{file}").read()
+
+# @app.get("/css/{file}", response_class=HTMLResponse)
+# def read_css(file: str):
+#     return open(f"{webroot}css/{file}").read()
 
 
 # @app.post("/")

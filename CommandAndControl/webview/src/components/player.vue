@@ -3,16 +3,11 @@
     <!-- <img class="float-left ma-2" width="25" :src="imgurl" alt=""> -->
     <!-- <h3  class="float-right ma-1">{{name}}</h3> -->
 
-    <v-row>
-      <v-col>
-        <img width="40" :src="imgurl" class="ml-2" />
-      </v-col>
+    <v-row class="justify-space-between align-center">
+        <img width="40" :src="imgurl" class="ml-4" />
 
-      <v-col cols="6">
         <h3 class="py-auto">{{ name }}</h3>
-      </v-col>
 
-      <v-col>
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -21,15 +16,15 @@
               v-on="on"
               @click="$emit('del')"
               color="error"
+              class="mr-2"
               icon
               x-large
             >
-              <v-icon>mdi-delete</v-icon>
+              <v-icon>mdi-replay</v-icon>
             </v-btn>
           </template>
-          <span>Forget player</span>
+          <span>Refresh player</span>
         </v-tooltip>
-      </v-col>
     </v-row>
   </v-card>
 </template>
@@ -56,11 +51,12 @@ export default Vue.extend({
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
       body: JSON.stringify({ name: this.name }),
-    })
+      })
       .then((response) => response.json())
       .then((data) => {
         this.imgurl = "https://visage.surgeplay.com/face/" + data;
-      });
+    });
+
   },
 });
 </script>
