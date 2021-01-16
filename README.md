@@ -31,8 +31,11 @@ Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to access the inteface.
 
 ### Client
 `@c3` - help
+
 `@c3 t` - run once
+
 `@c3 c` - run continually
+
 
 # BUGS
 
