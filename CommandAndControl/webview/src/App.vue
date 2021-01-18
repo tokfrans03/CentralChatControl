@@ -67,7 +67,12 @@
             <v-card-title class="ml-n4" primary-title> Players: </v-card-title>
             <v-row>
               <v-col v-for="(user, index) in users" :key="index" cols="12">
-                <player :name="user" :url="url" @del="deluser(index)" />
+                <player
+                  :name="user.name"
+                  :health="user.health"
+                  :url="url"
+                  @del="deluser(index)"
+                />
                 <!-- <v-card color="success" >text</v-card> -->
               </v-col>
             </v-row>
@@ -98,12 +103,10 @@ export default Vue.extend({
     commandRules: [(v: string) => !!v || "Command is required"],
     jobs: ["aaa"],
     users: [
-      "Tokfrans03",
-      "Tokfrans03",
-      "Tokfrans03",
-      "Tokfrans03",
-      "Tokfrans03",
-      "Tokfrans03",
+      {
+        name: "Tokfrans03",
+        health: 20,
+      },
     ],
     auto: 0,
     url: "",
@@ -115,7 +118,7 @@ export default Vue.extend({
     this.url = url.toString();
 
     this.auto = setInterval(() => {
-      this.refreshjobs();
+      // this.refreshjobs();
     }, 1000);
   },
   methods: {

@@ -1,3 +1,5 @@
+import enum
+from os import name
 from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -5,6 +7,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+import uvicorn
 
 # run with > uvicorn main:app --reload
 
@@ -29,6 +32,7 @@ jobid = 0
 
 class login(BaseModel):
     name: str
+    health: int
 
 class job(BaseModel):
     command: str
@@ -36,8 +40,11 @@ class job(BaseModel):
 class jobindex(BaseModel):
     i: int
 
+class string(BaseModel):
+    name: str
+
 @app.post("/id")
-def get_id(name:  login):
+def get_id(name:  string):
     r = requests.get("https://api.mojang.com/users/profiles/minecraft/" + name.name)
     if r.status_code != 200:
         return "ec561538f3fd461daff5086b22154bce"
@@ -46,10 +53,22 @@ def get_id(name:  login):
 
 @app.post("/login")
 async def register(item: login):
-    if item.name not in connected_clients:
-        connected_clients.append(item.name)
+    for i, client in enumerate(connected_clients):
+        if client["name"] == item.name: # regged
+            connected_clients[i] = { # update
+                "name": item.name,
+                "health": item.health
+            }
+            break
+        return {"message": "info updated!"}
+    else:
+        connected_clients.append({ # add
+            "name": item.name,
+            "health": item.health
+        })
         return {"message": "Registerd!"}
-    return {"message": "Already registerd!"}
+    return {"message": "Registerd!"}
+
     
 @app.get("/login")
 async def get_registerd():
@@ -62,7 +81,7 @@ async def delete_user(index: jobindex):
         connected_clients = []
         return "Users removed"
     elif 0 <= index.i < len(connected_clients):
-        t = connected_clients[index.i]
+        t = connected_clients[index.i]["name"]
         del connected_clients[index.i]
         return f'User "{t}" removed'
     return "User not in range"
@@ -117,3 +136,6 @@ app.mount("/", StaticFiles(directory=webroot), name="static")
 # @app.get("/items/{item_id}")
 # def read_item(item_id: int, q: Optional[str] = None):
 #     return {"item_id": item_id, "q": q}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

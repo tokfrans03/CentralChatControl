@@ -5,10 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.tok1.centralchatcontrol.Commands.Base;
-import me.tok1.centralchatcontrol.Etc.Config;
-import me.tok1.centralchatcontrol.Etc.Logger;
-import me.tok1.centralchatcontrol.Etc.sendGet;
-import me.tok1.centralchatcontrol.Etc.sendPost;
+import me.tok1.centralchatcontrol.Etc.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 
@@ -26,10 +23,20 @@ public class TickMixin {
     public void tick(CallbackInfo ci) {
         i++;
         if (Config.check && (i % Config.tickinterval == 0)){
-            Logger.info("Doin check");
-            sendPost.executePost(
-                    Config.url + ":" + Config.port + "/login", "{ \"name\": \"" + MinecraftClient.getInstance().player.getName().getString() + "\"}");
-            String jobres = sendGet.executeGet(Config.url + ":" + Config.port + "/jobs");
+            //Logger.info("Doin check");
+
+            JsonObject userinfo = new JsonObject();
+            assert MinecraftClient.getInstance().player != null;
+            userinfo.addProperty("name", MinecraftClient.getInstance().player.getName().getString());
+            userinfo.addProperty("health", MinecraftClient.getInstance().player.getHealth());
+
+
+            send.post(
+                    Config.url + ":" + Config.port + "/login", userinfo.toString());
+
+
+            String jobres = send.get(Config.url + ":" + Config.port + "/jobs");
+            assert jobres != null;
             jobres = jobres.replaceAll("\\r", "");
 
 
