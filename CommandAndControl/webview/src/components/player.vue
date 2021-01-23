@@ -34,7 +34,7 @@ import Vue from "vue";
 
 export default Vue.extend({
   name: "player",
-  props: ["name", "url"],
+  props: ["name", "health", "url"],
   data: () => ({
     imgurl: "",
   }),
