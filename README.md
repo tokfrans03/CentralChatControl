@@ -15,7 +15,7 @@ You need FastApi to run this, the website is also served through this
 
 ### Server
 ```bash
-pip install fastapi uvicorn[standard]
+pip install fastapi uvicorn[standard] aiofiles
 ```
 
 ### Client
