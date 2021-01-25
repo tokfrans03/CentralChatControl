@@ -1,9 +1,16 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app :color="update? 'error': 'primary'" dark>
       <div class="d-flex align-center">
         <h1>CommandAndControl</h1>
       </div>
+
+      <v-spacer></v-spacer>
+
+
+      <v-btn v-if="update" href="https://github.com/tokfrans03/CentralChatControl">
+        Update Available!
+      </v-btn>
 
       <v-spacer></v-spacer>
 
@@ -110,6 +117,7 @@ export default Vue.extend({
     ],
     auto: 0,
     url: "",
+    update: false,
   }),
   created() {
     const url = new URL(window.location.href);
@@ -118,10 +126,31 @@ export default Vue.extend({
     this.url = url.toString();
 
     this.auto = setInterval(() => {
-      // this.refreshjobs();
+      this.refreshjobs();
     }, 1000);
+    setInterval(() => {
+      this.checkUpdate();
+    }, 1 * 60 * 1000);
   },
   methods: {
+    async checkUpdate() {
+      fetch(this.url + "update", {
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.update = data;
+        });
+    },
     async deluser(index: number) {
       fetch(this.url + "login", {
         method: "DELETE", // *GET, POST, PUT, DELETE, etc.

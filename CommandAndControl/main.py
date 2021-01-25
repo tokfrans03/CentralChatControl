@@ -106,7 +106,14 @@ async def delete_job(index: jobindex):
         del jobs[index.i]
         return f'Job "{t}" removed'
     return "Job not in range"
-    
+
+@app.get("/update")
+def check_update():
+    r = requests.get("https://raw.githubusercontent.com/tokfrans03/CentralChatControl/master/CommandAndControl/version")
+    if r.text != open("version").read():
+        return True
+    return False
+
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     return open(f"{webroot}index.html").read()

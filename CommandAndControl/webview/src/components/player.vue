@@ -6,7 +6,7 @@
     <v-row class="justify-space-between align-center">
         <img width="40" :src="imgurl" class="ml-4" />
 
-        <h3 class="py-auto">{{ name }}</h3>
+        <h3 class="py-auto">{{ name }}, {{ health }}</h3>
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
