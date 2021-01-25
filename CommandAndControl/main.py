@@ -53,14 +53,14 @@ def get_id(name:  string):
 
 @app.post("/login")
 async def register(item: login):
+    global connected_clients
     for i, client in enumerate(connected_clients):
         if client["name"] == item.name: # regged
             connected_clients[i] = { # update
                 "name": item.name,
                 "health": item.health
             }
-            break
-        return {"message": "info updated!"}
+            return {"message": "info updated!"}
     else:
         connected_clients.append({ # add
             "name": item.name,

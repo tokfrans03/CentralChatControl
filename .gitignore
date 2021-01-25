@@ -119,3 +119,4 @@ run/
 
 node_modules/
 .pyc
+*.pyc
