@@ -1,16 +1,18 @@
 <template>
   <v-app>
-    <v-app-bar app :color="update? 'error': 'primary'" dark>
+    <v-app-bar app :color="update ? 'error' : 'primary'" dark>
       <div class="d-flex align-center">
         <h1>CommandAndControl</h1>
       </div>
 
       <v-spacer></v-spacer>
 
-
-      <v-btn v-if="update" href="https://github.com/tokfrans03/CentralChatControl">
-        Update Available!
-      </v-btn>
+      <div v-if="update">
+        <v-btn href="https://github.com/tokfrans03/CentralChatControl">
+          Update Available!
+        </v-btn>
+        <v-btn class="ml-2" @click="sendupdate()"> Try to update lol </v-btn>
+      </div>
 
       <v-spacer></v-spacer>
 
@@ -121,7 +123,6 @@ export default Vue.extend({
   }),
   created() {
     const url = new URL(window.location.href);
-    url.port = "8000";
     url.pathname = "";
     this.url = url.toString();
 
@@ -231,6 +232,20 @@ export default Vue.extend({
         body: JSON.stringify({ command: command }), // body data type must match "Content-Type" header
       });
       this.loading = false;
+    },    
+    async sendupdate() {
+      await fetch(this.url + "update", {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      });
     },
   },
 });

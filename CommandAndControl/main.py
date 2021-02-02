@@ -8,6 +8,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 import uvicorn
+import zipfile
+import shutil
+import os
+
+
+from distutils.dir_util import copy_tree
+
 
 # run with > uvicorn main:app --reload
 
@@ -29,6 +36,7 @@ connected_clients = []
 jobs = [] # jobid = len(jobs)
 jobid = 0
 
+updateLog = []
 
 class login(BaseModel):
     name: str
@@ -113,6 +121,39 @@ def check_update():
     if r.text != open("version").read():
         return True
     return False
+
+@app.post("/update")
+async def update_all():
+    global updateLog
+    updatefiledir = "UpdateFiles"
+    CaC = updatefiledir + "/CentralChatControl-master/CommandAndControl/"
+
+
+    print("Starting...")
+    print("Downloading...")
+    r = requests.get("https://github.com/tokfrans03/CentralChatControl/archive/master.zip")
+    print("Extracting...")
+    with open("update.zip", "wb") as zip:
+        zip.write(r.content)
+    
+    with zipfile.ZipFile("update.zip", "r") as zip:
+        zip.extractall(updatefiledir)
+    print("Moving...")
+
+
+    shutil.rmtree("webview/dist", ignore_errors=True)
+    copy_tree(CaC + "webview/dist", "webview/dist")
+    os.rename(CaC + "main.py", "main.py")
+    os.rename(CaC + "version", "version")
+
+    print("Cleaing up...")
+    shutil.rmtree(updatefiledir, ignore_errors=True)
+    os.remove("update.zip")
+
+    print("Done!")
+
+    
+        
 
 @app.get("/", response_class=HTMLResponse)
 def read_root():
