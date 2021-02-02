@@ -151,7 +151,9 @@ async def update_all():
                 shutil.rmtree(file_path)
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
-
+            
+    os.mkdir("webview/dist/css")
+    os.mkdir("webview/dist/js")
     copy_tree(CaC + "webview/dist", "webview/dist")
     os.rename(CaC + "main.py", "main.py")
     os.rename(CaC + "version", "version")
