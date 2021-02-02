@@ -140,7 +140,7 @@ async def update_all():
         zip.extractall(updatefiledir)
     print("Moving...")
 
-    folder = "webview/dist"
+    folder = "webview/dist/"
 
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
