@@ -140,8 +140,18 @@ async def update_all():
         zip.extractall(updatefiledir)
     print("Moving...")
 
+    folder = "webview/dist"
 
-    shutil.rmtree("webview/dist", ignore_errors=True)
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e))
+
     copy_tree(CaC + "webview/dist", "webview/dist")
     os.rename(CaC + "main.py", "main.py")
     os.rename(CaC + "version", "version")
